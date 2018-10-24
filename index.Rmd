@@ -1,0 +1,83 @@
+--- 
+title: "Crea tus API en R con Plumber"
+author: "Jeff Allen"
+site: bookdown::bookdown_site
+output: bookdown::gitbook
+bibliography: [book.bib]
+biblio-style: apalike
+documentclass: book
+github-repo: trestletech/apis-plumber
+description: "Uso el paquete plumber para crear API HTTP APIs con R."
+cover-image: ./files/images/cover.jpg
+favicon: ./files/images/favicon.png
+apple-touch-icon: ./files/images/apple-icon-152x152.png
+---
+
+```{r, echo=FALSE}
+library(plumber)
+library(jsonlite)
+
+code_chunk <- function(output, language=""){
+  cat(paste0("```",language,"\n"))
+  cat(output)
+  cat("\n```\n")
+}
+
+#' Include an external R file with syntax highlighting in the doc
+include_r <- function(file){
+  code_chunk(paste0(readLines(file), collapse="\n"), language="r")
+}
+
+#' Serialize an object into JSON the same way that plumber would.
+#' This way if the logic changes we consolidate all references to here.
+json_serialize <- function(obj){
+  jsonlite::toJSON(obj, auto_unbox = FALSE, pretty = TRUE)
+}
+
+```
+
+# Introducción {#intro}
+
+```{r, echo=FALSE, out.width="45%", out.extra = 'style="float:right;"'}
+knitr::include_graphics("files/images/plumber_pipe.png")
+```
+
+El lenguaje de programación R [@R-base] se ha convertido, en los últimos años, en uno de los lenguajes más importantes para el análisis y la visualización de datos. A la misma vez, servicios web ahora son un lenguaje común para que diferentes sistemas puedan interactuar el uno con el otro. El paquete `plumber` [@plumber] permite a usuarios R presentar su código R existente como un servicio disponible para otros en la Web. 
+
+La forma más fácil de ilustrar `plumber` es con un ejemplo:
+
+```{r, echo=FALSE, results='asis'}
+include_r("files/apis/01-01-quickstart.R")
+```
+
+Aún si no conoces R, probablemente puedes tener una idea aproximada de lo que el API en `plumber` arriba va a hacer. La primera función define el *endpoint* `/echo` que simplemente repite el texto que le ha sido enviado. La segunda función genera un grafico basada en el famosisimo conjunto de datos de Edgar Anderson llamado `iris`; ademas incluye un filtro que permite al usuario hacer un sub-conjunto de datos a una especie particular.
+
+Plumber usa estas anotaciones en el comentario justo encima de las funciones para definir el servicio web. Si pones el archivo arriba en Plumber, lo que vas a obtener es un servicio web que corre, y con el cual otros sistemas pueden interactuar sobre una red.
+
+## Las API Web
+
+El Protocolo de Transferencia de Hipertexto (HTTP) es el canal más importante a través intercambiamos información en internet. Una API (por las siglas en inglés de *Application Programming Interface*) es un termino amplio que define las reglas bajo las cuales puedes interactuar con software. En el caso de las API que usan HTTP, defines una serie de direcciones únicas (llamadas *endpoints*) que aceptan un input pre-definido. Plumber traduce las anotaciones que pones encima de tus funciones a un API HTTP que puedes llamar desde otras máquinas en tu red. Inclusive puedes hacer tu API disponible en el internet publico, si ejecutas tu API Plumber sobre servidor conectado con el internet.
+
+Las API HTTP se han convertido en el mecanismo principal con el cual software se comunica. AL crear un API HTTP, vas a darle el poder de interoperabilidad a tu código R, para que sea usado por otros servicios - no importa is están dentro de tu organización o si se hospedan al otro lado del mundo. Aquí hay un par de ideas de las cosas que podrás hacer una vez que envuelves tu código R en un API Plumber.
+
+ - Software escrito en otros lenguajes en tu organización puede correr tu código R. Por ejemplo, la aplicación escrita en Java ahora puede jalar un `ggplot` hecho a medida en el momento que lo necesite, o un cliente en Python puede hacer un llamado a un modelo predictivo que has definido en R.
+ - Puedes tener [algun proveedor](https://www.mailgun.com/) que reciba mensajes para ti, y que después notifique tu servicio en Plumber que un mensaje nuevo ha llegado.
+ - Podrías registrar un "[Comando Slash](https://api.slack.com/slash-commands)" en Slack, dándote la posibilidad de ejecutar una función R en respuesta a un comando que entra por Slack.
+   - Puedes escribir código en JavaScript que hace una solicitud de búsqueda a tu API Plumber desde el navegador de un visitante a tu página web. Inclusive podrías usar Plumber exclusivamente como el *back-end* de una aplicación web interactiva.
+
+## Instalación {#instalacion}
+
+Plumber está disponible en CRAN, así que puedes bajar e instalar la última versión estable y todas sus dependencias corriendo:
+
+```r
+install.packages("plumber")
+```
+
+Pero también puedes correr la ultima versión de desarrollo - no estable - de `plumber`, instalando desde su  [repositorio en GitHub](https://github.com/trestletech/plumber), usando el paquete `devtools`.
+
+```r
+install.packages("devtools")
+devtools::install_github("trestletech/plumber")
+```
+
+Una vez que tienes `plumber` instalado, puedes arrancar con la  [Guia Rapida](#quickstart) para leer como puedes tener un servicio corriendo con Plumber en minutos.
