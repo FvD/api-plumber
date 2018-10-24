@@ -80,4 +80,4 @@ install.packages("devtools")
 devtools::install_github("trestletech/plumber")
 ```
 
-Una vez que tienes `plumber` instalado, puedes arrancar con la  [Guia Rapida](#quickstart) para leer como puedes tener un servicio corriendo con Plumber en minutos.
+Una vez que tienes `plumber` instalado, puedes arrancar con la  [Guia Rapida](#guiarapida) para leer como puedes tener un servicio corriendo con Plumber en minutos.
