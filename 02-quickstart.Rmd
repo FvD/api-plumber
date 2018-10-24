@@ -1,13 +1,13 @@
 
 # Guia Rápida {#guiarapida}
 
-Plumber te permite crear una API decorando tu código R con anotaciones especiales. El ejemplo aqui abajo muestra un archivo llamado `plumber.R` (el nombre común para API en Plumber) la cual define un API.
+Plumber te permite crear una API decorando tu código R con anotaciones especiales. El ejemplo aquí abajo muestra un archivo llamado `plumber.R` (el nombre común para API en Plumber) la cual define un API.
 
 ```{r, echo=FALSE, results='asis'}
 include_r("files/apis/01-01-quickstart.R")
 ```
 
-Este archivo define dos *endpoints*. Uno esta hospedado en el camino `/repite` y lo unico que hace es repetir el mensaje que se le ha enviado como parámetro. El otro esta en el camino `/grafico` y devuelve una imagen mostrando un grafico simple en R.
+Este archivo define dos *endpoints*. Uno esta hospedado en el camino `/repite` y lo único que hace es repetir el mensaje que se le ha enviado como parámetro. El otro esta en el camino `/grafico` y devuelve una imagen mostrando un gráfico simple en R.
 
 Si aun no has instalado `plumber`, mira [la sección sobre instalación](#installation). Una vez que tiene `plumber` instalado puedes usar la función `plumber::pblumb()` para traducir este archivo R a un API en Plumber.
 
@@ -21,9 +21,9 @@ el objeto `pr` ahora contiene toda la lógica representada en tu archivo `plumbe
 pr$run()
 ```
 
-Si todo va bien verás un mensaje indicando que tu API esta corriendo sobre tu computador en la puerta `8000`. La API continuirá corriendo en tu sesión de R hasta que presiones la tecla `ESC`. Si estas corriendo el codigo localmente sobre tu máquina, deberia ser posible que abras la dirección [http://localhost:8000/repite](http://localhost:8000/repite) o [http://localhost:8000/grafica](http://localhost:8000/grafica) en un navegador web para probar si tus nuevos *endpoints* están corriendo.
+Si todo va bien verás un mensaje indicando que tu API esta corriendo sobre tu computador en la puerta `8000`. La API continuará corriendo en tu sesión de R hasta que presiones la tecla `ESC`. Si estas corriendo el código localmente sobre tu máquina, debería ser posible que abras la dirección [http://localhost:8000/repite](http://localhost:8000/repite) o [http://localhost:8000/grafica](http://localhost:8000/grafica) en un navegador web para probar si tus nuevos *endpoints* están corriendo.
 
-> Si estás usando una herramienta como RStudio Server para correr to código R en una máquina remota, deberias ver la [sección sobre redes](#networking) para ver como visitar tu API
+> Si estás usando una herramienta como RStudio Server para correr to código R en una máquina remota, deberías ver la [sección sobre redes](#networking) para ver como visitar tu API
 
 El *endpoint* `/repite` debería mostrar algo que se parece a los siguiente.
 
@@ -33,7 +33,7 @@ e <- pr$endpoints[[1]][[1]]
 code_chunk(json_serialize(e$exec()), "json")
 ```
 
-El *endpoint* `/grafica` te mostrará una simple grafica de variables en el conjunto de datos `iris`.
+El *endpoint* `/grafica` te mostrará una simple gráfica de variables en el conjunto de datos `iris`.
 
 ```{r, echo=FALSE, results='asis'}
 e <- pr$endpoints[[1]][[2]]
@@ -48,7 +48,7 @@ Si ves algo parecido a lo que está arriba: Felicidades! Acabas de crear tu prim
 
 ## Especificando las entradas
 
-Quizas has notado que las funciones que definen nuestros endpoints acceptan parámetros. Estos parámetros nos permiten cambiar el comportamiento de nuestros endpoints. Una de las formas de hacerlo es usando *query strings*, con los cuales puede pasarles parametros a una API HTTP. Si visitias [http://localhost:8000/grafica?spec=setosa](http://localhost:8000/grafica?spec=setosa), deberias ver una grafica similar a la que viste antes, pero ahora con un set de datos que has sido filtrado para solamente incluir la especie *setosa* del conjunto de datos `iris`.
+Quizás has notado que las funciones que definen nuestros endpoints aceptan parámetros. Estos parámetros nos permiten cambiar el comportamiento de nuestros endpoints. Una de las formas de hacerlo es usando *query strings*, con los cuales puede pasarles parámetros a una API HTTP. Si visitas [http://localhost:8000/grafica?spec=setosa](http://localhost:8000/grafica?spec=setosa), deberías ver una gráfica similar a la que viste antes, pero ahora con un set de datos que has sido filtrado para solamente incluir la especie *setosa* del conjunto de datos `iris`.
 
 ```{r, echo=FALSE, results='asis'}
 e <- pr$endpoints[[1]][[2]]
@@ -59,9 +59,9 @@ res <- plumber:::PlumberResponse$new()
 do.call(e[['.__enclos_env__']]$private$func, list(spec="setosa"))
 ```
 
-Quizś ya lo has notado, pero la sección `spec=setosa` del URL que envias, es la que setea el parametro `spec` a `setosa`. Más detalles sobre como Plumber procesa inputs estan disponible en el [Capitulo Ruteo y Entradas](#ruteo-y-entradas)
+Quizá ya lo has notado, pero la sección `spec=setosa` del URL que envías, es la que setea el parámetro `spec` a `setosa`. Más detalles sobre como Plumber procesa *inputs* están disponible en el [Capitulo Ruteo y Entradas](#ruteo-y-entradas)
 
-## Personalisar las salidas
+## Personalizar las salidas
 
 En el ejemplo anterior viste como un *endpoint* devuelve JSON, y otro produce una imagen. Si no instruyes a Plumber de forma diferente, por defecto Plumber va a tratar de representar lo que devuelve tu función como JSON. Pero puedes especificar "serializadores" (en inglés: *serializers*) que le dan una instrucción a Plumber para representar tu salida (*output*) como otro formato, por ejemplo como HTML (`@html`), PNG (`@png`), o JPEG (`@jpeg`). 
 
@@ -69,7 +69,7 @@ En el ejemplo anterior viste como un *endpoint* devuelve JSON, y otro produce un
 include_r("files/apis/01-02-html.R")
 ```
 
-Este endpoint produce algo como a continuación cuando lo visitas. Tambien setea de forma correcta el encabezado `Content-Type` para que el navegador que usas para visitar la pagina sepa que tiene que representar el resultado como HTML.
+Este *endpoint* produce algo como a continuación cuando lo visitas. También setea de forma correcta el encabezado `Content-Type` para que el navegador que usas para visitar la pagina sepa que tiene que representar el resultado como HTML.
 
 ```{r, echo=FALSE, results='asis'}
 pr <- plumber::plumb("files/apis/01-02-html.R")
