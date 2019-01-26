@@ -1,21 +1,21 @@
 
 # Guia Rápida {#guiarapida}
 
-Plumber te permite crear una API decorando tu código R con anotaciones especiales. El ejemplo aquí abajo muestra un archivo llamado `plumber.R` (el nombre común para API en Plumber) la cual define un API.
+Plumber te permite crear una API decorando tu código R con anotaciones especiales. El ejemplo aquí abajo muestra un archivo llamado `plumber.R` (el nombre común para API en Plumber) el cual define un API.
 
 ```{r, echo=FALSE, results='asis'}
 include_r("files/apis/01-01-quickstart.R")
 ```
 
-Este archivo define dos *endpoints*. Uno esta hospedado en el camino `/repite` y lo único que hace es repetir el mensaje que se le ha enviado como parámetro. El otro esta en el camino `/grafico` y devuelve una imagen mostrando un gráfico simple en R.
+Este archivo define dos *endpoints*. Uno esta hospedado en el camino `/repite` y lo único que hace es repetir el mensaje que se le ha enviado como parámetro. El otro está en el camino `/grafico` y devuelve una imagen mostrando un gráfico simple en R.
 
-Si aun no has instalado `plumber`, mira [la sección sobre instalación](#installation). Una vez que tiene `plumber` instalado puedes usar la función `plumber::pblumb()` para traducir este archivo R a un API en Plumber.
+Si aún no has instalado `plumber`, mira [la sección sobre instalación](#installation). Una vez que tienes `plumber` instalado puedes usar la función `plumber::plumb()` para traducir este archivo R a un API en Plumber.
 
 ```r
 pr <- plumber::plumb("plumber.R")
 ```
 
-el objeto `pr` ahora contiene toda la lógica representada en tu archivo `plumber.R`. Y el siguiente paso es hacer vivir el API usando el método `run()`.
+El objeto `pr` ahora contiene toda la lógica representada en tu archivo `plumber.R`. Y el siguiente paso es hacer vivir el API usando el método `run()`.
 
 ```r
 pr$run()
@@ -23,7 +23,7 @@ pr$run()
 
 Si todo va bien verás un mensaje indicando que tu API esta corriendo sobre tu computador en la puerta `8000`. La API continuará corriendo en tu sesión de R hasta que presiones la tecla `ESC`. Si estas corriendo el código localmente sobre tu máquina, debería ser posible que abras la dirección [http://localhost:8000/repite](http://localhost:8000/repite) o [http://localhost:8000/grafica](http://localhost:8000/grafica) en un navegador web para probar si tus nuevos *endpoints* están corriendo.
 
-> Si estás usando una herramienta como RStudio Server para correr to código R en una máquina remota, deberías ver la [sección sobre redes](#networking) para ver como visitar tu API
+> Si estás usando una herramienta como RStudio Server para correr to código R en una máquina remota, deberías ver la [sección sobre redes](#networking) para ver cómo visitar tu API
 
 El *endpoint* `/repite` debería mostrar algo que se parece a los siguiente.
 
@@ -44,11 +44,11 @@ res <- plumber:::PlumberResponse$new()
 do.call(e[['.__enclos_env__']]$private$func, list())
 ```
 
-Si ves algo parecido a lo que está arriba: Felicidades! Acabas de crear tu primer API con Plumber!. Ya has verificado que corre en tu navegador web, pero no hay nada que te pare de usar una herramienta desarrollada para interactuar con las API REST, o llamarlo desde otro lenguaje de programación
+Si ves algo parecido a lo que está arriba: ¡Felicidades! ¡Acabas de crear tu primer API con Plumber!. Ya has verificado que corre en tu navegador web, pero no hay nada que te pare de usar una herramienta desarrollada para interactuar con las API REST, o llamarlo desde otro lenguaje de programación
 
 ## Especificando las entradas
 
-Quizás has notado que las funciones que definen nuestros endpoints aceptan parámetros. Estos parámetros nos permiten cambiar el comportamiento de nuestros endpoints. Una de las formas de hacerlo es usando *query strings*, con los cuales puede pasarles parámetros a una API HTTP. Si visitas [http://localhost:8000/grafica?spec=setosa](http://localhost:8000/grafica?spec=setosa), deberías ver una gráfica similar a la que viste antes, pero ahora con un set de datos que has sido filtrado para solamente incluir la especie *setosa* del conjunto de datos `iris`.
+Quizás has notado que las funciones que definen nuestros endpoints aceptan parámetros. Estos parámetros nos permiten cambiar el comportamiento de nuestros endpoints. Una de las formas de hacerlo es usando *query strings*, con los cuales puede pasarles parámetros a una API HTTP. Si visitas [http://localhost:8000/grafica?spec=setosa](http://localhost:8000/grafica?spec=setosa), deberías ver una gráfica similar a la que viste antes, pero ahora con un set de datos que han sido filtrados para solamente incluir la especie *setosa* del conjunto de datos `iris`.
 
 ```{r, echo=FALSE, results='asis'}
 e <- pr$endpoints[[1]][[2]]
@@ -59,7 +59,7 @@ res <- plumber:::PlumberResponse$new()
 do.call(e[['.__enclos_env__']]$private$func, list(spec="setosa"))
 ```
 
-Quizá ya lo has notado, pero la sección `spec=setosa` del URL que envías, es la que setea el parámetro `spec` a `setosa`. Más detalles sobre como Plumber procesa *inputs* están disponible en el [Capitulo Ruteo y Entradas](#ruteo-y-entradas)
+Quizá ya lo has notado, pero la sección `spec=setosa` del URL que envías, es la que configura el parámetro `spec` a `setosa`. Más detalles sobre como Plumber procesa *inputs* están disponibles en el [Capítulo Ruteo y Entradas](#ruteo-y-entradas)
 
 ## Personalizar las salidas
 
@@ -69,7 +69,7 @@ En el ejemplo anterior viste como un *endpoint* devuelve JSON, y otro produce un
 include_r("files/apis/01-02-html.R")
 ```
 
-Este *endpoint* produce algo como a continuación cuando lo visitas. También setea de forma correcta el encabezado `Content-Type` para que el navegador que usas para visitar la pagina sepa que tiene que representar el resultado como HTML.
+Este *endpoint* produce algo como a continuación cuando lo visitas. También configura de forma correcta el encabezado `Content-Type` para que el navegador que usas para visitar la página sepa que tiene que representar el resultado como HTML.
 
 ```{r, echo=FALSE, results='asis'}
 pr <- plumber::plumb("files/apis/01-02-html.R")
@@ -77,9 +77,9 @@ e <- pr$endpoints[[1]][[1]]
 code_chunk(e$exec(), "html")
 ```
 
-Inclusive puedes especificar tus propios serializadores y definir como traducir un objeto R producido por tu *endpoint* a los bits que la respuesta HTTP de Plumber va a producir.
+Inclusive puedes especificar tus propios serializadores y definir cómo traducir un objeto R producido por tu *endpoint* a los bits que la respuesta HTTP de Plumber va a producir.
 
-Puedes encontrar mas detalles en el [Capitulo de Representación y Salidas](#representacion-y-salidas).
+Puedes encontrar más detalles en el [Capítulo de Representación y Salidas](#representacion-y-salidas).
 
 
 
